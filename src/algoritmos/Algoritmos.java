@@ -106,7 +106,7 @@ public class Algoritmos {
 		if (nodo == null || nodo.arbolVacio()) return;
 
 		ColaStringTDA periodos = nodo.periodos();
-		periodos.inicializarCola();
+		// periodos.inicializarCola();
 
 		while (!periodos.colaVacia()) {
 			String periodo = periodos.primero();
@@ -138,7 +138,7 @@ public class Algoritmos {
 	private void recorrerYSumar(ABBPrecipitacionesTDA nodo, String periodo, int dia, int[] suma, int[] cantidad) {
 		if (nodo == null || nodo.arbolVacio()) return;
 		ColaPrioridadTDA cola = nodo.precipitaciones(periodo);
-		cola.inicializarCola();
+		//cola.inicializarCola();
 		while (!cola.colaVacia()) {
 			int actualDia = cola.primero();
 			int mm = cola.prioridad();
@@ -166,7 +166,7 @@ public class Algoritmos {
 		int totalLluviaCampo = 0;
 
 		ColaStringTDA periodos = nodo.periodos();
-		periodos.inicializarCola();
+		//periodos.inicializarCola();
 
 		while (!periodos.colaVacia()) {
 			String periodo = periodos.primero();

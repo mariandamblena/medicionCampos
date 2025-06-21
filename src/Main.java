@@ -1,54 +1,79 @@
 import implementacion.ArbolPrecipitaciones;
-import algoritmos.Algoritmos;
 import tdas.ABBPrecipitacionesTDA;
 import tdas.ColaPrioridadTDA;
+import tdas.ColaStringTDA;
+import algoritmos.Algoritmos;
 
 public class Main {
     public static void main(String[] args) {
-        // Crear árbol y cargar datos
         ABBPrecipitacionesTDA arbol = new ArbolPrecipitaciones();
         arbol.inicializar();
+        Algoritmos algoritmos = new Algoritmos(arbol);
 
-        arbol.agregar("CampoX");
+        // Carga de datos
+
+        arbol.agregar("CampoA");
         arbol.agregar("CampoB");
-        arbol.agregar("CampoZ");
+        arbol.agregar("CampoC");
+        algoritmos.agregarMedicion("CampoA", 2025, 7, 10, 20);
+        algoritmos.agregarMedicion("CampoA", 2025, 7, 11, 25);
+        algoritmos.agregarMedicion("CampoB", 2025, 7, 10, 20);
+        algoritmos.agregarMedicion("CampoB", 2025, 7, 11, 10);
+        algoritmos.agregarMedicion("CampoC", 2025, 7, 11, 15);
+        algoritmos.agregarMedicion("CampoC", 2025, 7, 15, 25);
+        algoritmos.agregarMedicion("CampoC", 2025, 7, 16, 30);
 
-        arbol.agregarMedicion("CampoX", "2025", "07", 10, 15);
-        arbol.agregarMedicion("CampoX", "2025", "07", 11, 20);
-        arbol.agregarMedicion("CampoX", "2025", "07", 12, 5);
+        // Promedio diario julio 2025
+        System.out.println("\n\uD83D\uDCCA Promedio diario julio 2025 (todos los campos):");
+        ColaPrioridadTDA resumen = algoritmos.medicionesMes(2025, 7);
+        while (!resumen.colaVacia()) {
+            System.out.println("D\u00eda " + resumen.primero() + ": " + resumen.prioridad() + " mm promedio");
+            resumen.desacolar();
+        }
 
-        arbol.agregarMedicion("CampoB", "2025", "07", 8, 12);
-        arbol.agregarMedicion("CampoB", "2025", "07", 9, 9);
-        arbol.agregarMedicion("CampoB", "2025", "07", 10, 7);
+        // Mediciones CampoA julio 2025
+        System.out.println("\n\uD83C\uDF3E Mediciones en CampoA (julio 2025):");
+        ColaPrioridadTDA datosCampo = algoritmos.medicionesCampoMes("CampoA", 2025, 7);
+        while (!datosCampo.colaVacia()) {
+            System.out.println("D\u00eda " + datosCampo.primero() + ": " + datosCampo.prioridad() + " mm");
+            datosCampo.desacolar();
+        }
 
-        arbol.agregarMedicion("CampoZ", "2025", "07", 15, 25);
-        arbol.agregarMedicion("CampoZ", "2025", "07", 16, 30);
+        // Mes más lluvioso
+        System.out.println("\n\uD83C\uDF27\uFE0F Mes más lluvioso: " + algoritmos.mesMasLluvioso());
 
-        // Instanciar clase Algoritmos con el árbol cargado
-        Algoritmos algoritmo = new Algoritmos(arbol);
+        // Promedio lluvia día 11
+        System.out.println("\n\uD83D\uDCC8 Promedio d\u00eda 11/07/2025: " + algoritmos.promedioLluviaEnUnDia(2025, 7, 11) + " mm");
 
-        // Probar mesMasLluvioso
-        int mesMasLluvia = algoritmo.mesMasLluvioso();
-        System.out.println("\n🌧️ Mes más lluvioso (número de mes): " + mesMasLluvia);
+        // Campo más lluvioso
+        System.out.println("\n\uD83C\uDF1F Campo más lluvioso en la historia: " + algoritmos.campoMasLLuvisoHistoria());
 
-        // Probar campo más lluvioso en la historia
-        String campoMax = algoritmo.campoMasLLuvisoHistoria();
-        System.out.println("🌾 Campo con más lluvia histórica: " + campoMax);
+        // Campos con lluvia mayor al promedio
+        System.out.println("\n\uD83D\uDEA9 Campos con lluvias mayores al promedio en julio 2025:");
+        ColaStringTDA mayores = algoritmos.camposConLLuviaMayorPromedio(2025, 7);
+        if (mayores.colaVacia()) {
+            System.out.println("(No se encontraron campos con lluvia superior al promedio)");
+        } else {
+            while (!mayores.colaVacia()) {
+                System.out.println("\uD83C\uDF31 " + mayores.primero());
+                mayores.desacolar();
+            }
+        }
 
-        // Probar promedio de lluvia en un día específico
-        float promedioDia = algoritmo.promedioLluviaEnUnDia(2025, 7, 10);
-        System.out.println("📊 Promedio lluvia el 10/07/2025: " + promedioDia + " mm");
+        // Test final con diferencia forzada
+        System.out.println("\n\uD83D\uDEA9 Campos con lluvias mayores al promedio en julio 2025 (test forzado):");
+        algoritmos.agregarMedicion("CampoA", 2025, 7, 20, 100);
+        algoritmos.agregarMedicion("CampoB", 2025, 7, 20, 10);
+        algoritmos.agregarMedicion("CampoC", 2025, 7, 20, 10);
 
-        // Ver precipitaciones en CampoZ
-        System.out.println("\n📌 Lluvias en CampoZ (julio 2025):");
-        ColaPrioridadTDA datos = algoritmo.medicionesCampoMes("CampoZ", 2025, 7);
-        while (!datos.colaVacia()) {
-            int dia = datos.primero();
-            int mm = datos.prioridad();
-            System.out.println("Día " + dia + ": " + mm + " mm");
-            datos.desacolar();
-
-
+        ColaStringTDA forzado = algoritmos.camposConLLuviaMayorPromedio(2025, 7);
+        if (forzado.colaVacia()) {
+            System.out.println("(No se encontraron campos con lluvia superior al promedio)");
+        } else {
+            while (!forzado.colaVacia()) {
+                System.out.println("\uD83C\uDF31 " + forzado.primero());
+                forzado.desacolar();
+            }
         }
     }
 }
