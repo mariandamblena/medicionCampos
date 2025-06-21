@@ -1,0 +1,11 @@
+>>> Resultados de prueba
+
+Mes más lluvioso: 1
+Promedio lluvia 2025/06 día 15: 0.0 mm
+Campo más lluvioso en la historia: null
+
+>>> Mediciones para Mithras en junio 2025:
+(Sin datos)
+
+>>> Periodos disponibles en Mithras:
+(No se encontraron periodos para Mithras)
