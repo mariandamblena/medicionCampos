@@ -29,6 +29,7 @@ public class ArbolPrecipitaciones implements ABBPrecipitacionesTDA {
 		nodoArbol nuevo = new nodoArbol();
 		nuevo.campo = valor;
 		nuevo.mensualPrecipitaciones = new DiccionarioSimpleString();
+		nuevo.mensualPrecipitaciones.inicializarDiccionario();
 
 		if (raiz == null) {
 			raiz = nuevo;
@@ -154,7 +155,7 @@ public class ArbolPrecipitaciones implements ABBPrecipitacionesTDA {
 		if (raiz == null) return cola;
 
 		ConjuntoStringTDA cs = raiz.mensualPrecipitaciones.claves();
-		cs.inicializar();
+		//cs.inicializar();
 		while (!cs.estaVacio()) {
 			String p = cs.elegir();
 			cola.acolar(p);
@@ -182,7 +183,6 @@ public class ArbolPrecipitaciones implements ABBPrecipitacionesTDA {
 		}
 		return cola;
 	}
-
 
 	@Override
 	public ABBPrecipitacionesTDA hijoIzq() {
