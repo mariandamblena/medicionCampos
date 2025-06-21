@@ -1,36 +1,23 @@
-import implementacion.ArbolPrecipitaciones;
-import implementacion.DiccionarioSimple;
-import implementacion.Conjunto;
-import tdas.ABBPrecipitacionesTDA;
-import tdas.ConjuntoTDA;
+import implementacion.ColaPrioridad;
+import tdas.ColaPrioridadTDA;
 
 public class Main {
     public static void main(String[] args) {
-        // Crear el árbol de precipitaciones
-        ABBPrecipitacionesTDA arbol = new ArbolPrecipitaciones();
-        arbol.inicializar();
+        ColaPrioridadTDA cola = new ColaPrioridad();
+        cola.inicializarCola();
 
-        // Agregar campo
-        arbol.agregar("CampoA");
+        // Agregar valores con distintas prioridades (en este caso, los mm son la prioridad)
+        cola.acolarPrioridad(12, 10); // Día 12, 10 mm
+        cola.acolarPrioridad(13, 5);  // Día 13, 5 mm
+        cola.acolarPrioridad(12, 3);  // Día 12 nuevamente con prioridad 3 (debería estar después)
 
-        // Agregar precipitaciones al campo (año y mes separados como String)
-        arbol.agregarMedicion("CampoA", "2024", "06", 12, 10); // 10 mm el 12 de junio 2024
-        arbol.agregarMedicion("CampoA", "2024", "06", 13, 5);  // 5 mm el 13 de junio
-        arbol.agregarMedicion("CampoA", "2024", "06", 12, 3);  // suma 3 mm más al 12
+        System.out.println(">>> Contenido de ColaPrioridadTDA (ordenado por prioridad descendente):");
 
-        // Simular un diccionario directamente
-        DiccionarioSimple dic = new DiccionarioSimple();
-        dic.inicializar();
-        dic.agregar(1, 100);
-        dic.agregar(2, 200);
-        dic.agregar(1, 50); // debería sumar a la clave 1
-
-        ConjuntoTDA claves = dic.obtenerClaves();
-        while (!claves.estaVacio()) {
-            int k = claves.elegir();
-            claves.sacar(k);
-            int v = dic.recuperar(k);
-            System.out.println("Día: " + k + " -> " + v + " mm");
+        while (!cola.colaVacia()) {
+            int dia = cola.primero();
+            int mm = cola.prioridad();
+            System.out.println("Día " + dia + ": " + mm + " mm");
+            cola.desacolar();
         }
     }
 }

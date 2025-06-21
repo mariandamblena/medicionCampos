@@ -172,7 +172,7 @@ public class ArbolPrecipitaciones implements ABBPrecipitacionesTDA {
 		DiccionarioSimpleTDA dias = raiz.mensualPrecipitaciones.recuperar(periodo);
 		if (dias != null) {
 			ConjuntoTDA claves = dias.obtenerClaves();
-			claves.inicializar();
+			//claves.inicializar();
 			while (!claves.estaVacio()) {
 				int dia = claves.elegir();
 				int cantidad = dias.recuperar(dia);
@@ -180,7 +180,6 @@ public class ArbolPrecipitaciones implements ABBPrecipitacionesTDA {
 				claves.sacar(dia);
 			}
 		}
-
 		return cola;
 	}
 
